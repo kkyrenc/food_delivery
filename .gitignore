@@ -1,0 +1,41 @@
+# Python Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Django-related files
+db.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+
+# Static and Media files
+/static/
+*.media/
+
+# Secrets and configuration files
+.env
+*.key
+
+# IDE and Editor-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Node.js (if you use npm/yarn for front-end)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
