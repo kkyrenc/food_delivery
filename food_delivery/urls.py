@@ -21,4 +21,11 @@ from food_delivery_app import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', views.test_mysql),
+    path('restaurants/', views.restaurant_list, name='restaurant_list'),
+    # TODO: account path needs to take customer_id as 'profile/<customer_id>'
+    path('profile/', views.account_view, name='account'),
+
+    # TODO: order history path needs to take customer_id as 'order_history/<customer_id>'
+    path('order_history/', views.order_history_view, name='order_history'),
+    path('restaurants/<str:restaurant_id>/', views.restaurant_menu, name='restaurant_menu'),
 ]

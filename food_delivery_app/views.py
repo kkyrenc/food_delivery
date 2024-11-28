@@ -13,6 +13,7 @@ from .models import (
     Reviews,
 )
 
+
 # Create your views here.
 def test_mysql(request):
     # Use a customer to test
@@ -25,3 +26,22 @@ def test_mysql(request):
         'phone': customer.phone
     }
     return render(request, 'home.html', context)
+
+
+def restaurant_list(request):
+    # TODO: needs to get customer_id through session
+    restaurants = Restaurants.objects.all()
+    return render(request, 'restaurants_list.html', {'restaurants': restaurants})
+
+# TODO: account_view also needs to take customer_id as a parameter
+def account_view(request):
+    return render(request, 'account.html')
+
+# TODO: order history also needs to take customer_id as a parameter
+def order_history_view(request):
+    return render(request, 'order_history.html')
+
+def restaurant_menu(request, restaurant_id):
+    # Assuming there is a related menu item model, you would query it here
+    menu_items = MenuItems.objects.all().filter(res=restaurant_id)  # Replace with actual related model name if different
+    return render(request, 'restaurant_menu.html', { 'menu_items': menu_items})

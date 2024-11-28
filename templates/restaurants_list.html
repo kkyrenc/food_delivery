@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header .buttons a {
+            text-decoration: none;
+            color: #007bff;
+            padding: 5px 10px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header .buttons a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .restaurant {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .restaurant h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        .restaurant p {
+            margin: 5px 0 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Local restaurants</h1>
+    <div class="buttons">
+{#        <a href="{% url 'account' customer_id %}">Account</a>#}
+        <a href="{% url 'account' %}">Account</a>
+{#        <a href="{% url 'order_history' customer_id %}">Order History</a>#}
+        <a href="{% url 'order_history'  %}">Order History</a>
+
+    </div>
+</div>
+<div class="container">
+    {% for restaurant in restaurants %}
+        <div class="restaurant"> 
+            
+            <h3><a href="{% url 'restaurant_menu' restaurant.res_id %}">{{ restaurant.name }}</a></h3>
+            <p>Type: {{ restaurant.type }}</p>
+        <p>Location: {{ restaurant.city }}, {{ restaurant.state }}</p>
+           
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>
