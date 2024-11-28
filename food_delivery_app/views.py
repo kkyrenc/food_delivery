@@ -29,12 +29,15 @@ def test_mysql(request):
 
 
 def restaurant_list(request):
+    # TODO: needs to get customer_id through session
     restaurants = Restaurants.objects.all()
     return render(request, 'restaurants_list.html', {'restaurants': restaurants})
 
+# TODO: account_view also needs to take customer_id as a parameter
 def account_view(request):
     return render(request, 'account.html')
 
+# TODO: order history also needs to take customer_id as a parameter
 def order_history_view(request):
     return render(request, 'order_history.html')
 
