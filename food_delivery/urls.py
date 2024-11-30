@@ -26,7 +26,11 @@ urlpatterns = [
     path('profile/', views.account_view, name='account'),
 
     # TODO: order history path needs to take customer_id as 'order_history/<customer_id>'
-    #path('order_history/', views.order_history_view, name='order_history'),
-    path('order_history/<str:customer_id>/', views.order_history, name='order_history'),
+    path('order_history/<str:customer_id>/', views.order_history_view, name='order_history'),
     path('restaurants/<str:restaurant_id>/', views.restaurant_menu, name='restaurant_menu'),
+    path('cart/add/<str:res_id>/<str:item_name>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/update/<str:item_key>/', views.update_cart, name='update_cart'),
+    path('cart/', views.show_cart, name='show_cart'),
+    path('cart/clear/', views.clear_cart, name='clear_cart'),
+    path('checkout/', views.checkout, name='checkout'),
 ]

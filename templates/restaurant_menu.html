@@ -1,10 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>your choice of restaurant</title>
-</head>
-<body>
-<h1>your choice of restaurant</h1>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+<div class="container">
+    <h2>{{ restaurant.name }} - Menu</h2>
+    <div class="row mt-4">
+        {% for item in menu_items %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.item_name }}</h5>
+                    <p class="card-text">Price: ${{ item.price }}</p>
+                    <a href="{% url 'add_to_cart' restaurant.res_id item.item_name %}" 
+                       class="btn btn-primary add-to-cart">Add to cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 居中的 Toast notification -->
+<div class="toast-container position-fixed top-50 start-50 translate-middle">
+    <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Item added to cart successfully!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addButtons = document.querySelectorAll('.add-to-cart');
+    
+    addButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const toast = new bootstrap.Toast(document.getElementById('cartToast'));
+            toast.show();
+            
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 800);
+        });
+    });
+});
+</script>
+{% endblock %}
