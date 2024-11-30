@@ -1,10 +1,156 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 20px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        th, td {
+            min-width: 80px; /* Increase the width of each column */
+        }
+        h1 {
+            text-align: center; /* Center the title */
+        }
+    </style>
+</head>
+<body>
+    <h1>Order History</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Restaurant</th>
+                <th>Driver</th>
+                <th>Status</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Payment Method</th>
+                <th>Customer Address</th>
+                <th>Order Time</th>
+                <th>Estimated Arrival</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.restaurant_name }}</td>
+                    <td>{{ order.driver_name }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.item_name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.payment_method }}</td>
+                    <td>{{ order.customer_address }}</td>
+                    <td>{{ order.order_time }}</td>
+                    <td>{{ order.estimated_arrival }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>orderhistory</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 20px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        th, td {
+            min-width: 80px; /* Increase the width of each column */
+        }
+        h1 {
+            text-align: center; /* Center the title */
+        }
+        /* Button Styling */
+        .top-right-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .top-right-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<h1>orderhistory</h1>
+    <!-- Button to redirect to the main page -->
+    <a href="{% url 'restaurant_list' %}" class="top-right-button">Main Screen</a>
 
+    <h1>Order History</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer Name</th>
+                <th>Restaurant</th>
+                <th>Driver</th>
+                <th>Status</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Payment Method</th>
+                <th>Customer Address</th>
+                <th>Order Time</th>
+                <th>Estimated Arrival</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_id }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.restaurant_name }}</td>
+                    <td>{{ order.driver_name }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.item_name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.payment_method }}</td>
+                    <td>{{ order.customer_address }}</td>
+                    <td>{{ order.order_time }}</td>
+                    <td>{{ order.estimated_arrival }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
+
