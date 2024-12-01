@@ -35,11 +35,9 @@ urlpatterns = [
     path('cart/clear/', views.clear_cart, name='clear_cart'),
     path('checkout/', views.checkout, name='checkout'),
 
-    path('', views.home, name='home'),
-
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
     path('profile/<str:customer_id>/', views.profile, name='profile'),  # 动态用户 Profile 路由
 
-    path('', lambda r: redirect(r, "login/")),
+    path('', lambda r: redirect("restaurants/")),
 ]
