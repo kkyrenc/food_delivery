@@ -22,18 +22,21 @@ class Cars(models.Model):
 
 
 class Customers(models.Model):
-    customer_id = models.CharField(db_column='Customer_ID', primary_key=True, max_length=50)  # Field name made lowercase.
-    fname = models.CharField(db_column='Fname', max_length=50)  # Field name made lowercase.
-    lname = models.CharField(db_column='Lname', max_length=50)  # Field name made lowercase.
-    street = models.CharField(db_column='Street', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    city = models.CharField(db_column='City', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    state = models.CharField(db_column='State', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    zipcode = models.CharField(db_column='Zipcode', max_length=20, blank=True, null=True)  # Field name made lowercase.
-    phone = models.CharField(db_column='Phone', max_length=20, blank=True, null=True)  # Field name made lowercase.
+    customer_id = models.CharField(db_column='Customer_ID', primary_key=True, max_length=50, unique=True)  # 主键字段
+    fname = models.CharField(db_column='Fname', max_length=50)
+    lname = models.CharField(db_column='Lname', max_length=50)
+    street = models.CharField(db_column='Street', max_length=100, blank=True, null=True)
+    city = models.CharField(db_column='City', max_length=50, blank=True, null=True)
+    state = models.CharField(db_column='State', max_length=50, blank=True, null=True)
+    zipcode = models.CharField(db_column='Zipcode', max_length=20, blank=True, null=True)
+    phone = models.CharField(db_column='Phone', max_length=20, blank=True, null=True)
+    username = models.CharField(max_length=50, unique=True, blank=True, null=True)  # 新增字段
+    email = models.EmailField(unique=True, blank=True, null=True)  # 新增字段
+    password = models.CharField(max_length=255, blank=True, null=True)  # 新增字段
 
     class Meta:
-        # managed = False
-        db_table = 'Customers'
+        managed = True  # 暂时让 Django 管理此表
+        db_table = 'Customers'  # 表名保持不变
 
 
 class Drivers(models.Model):
