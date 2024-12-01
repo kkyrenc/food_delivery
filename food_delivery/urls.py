@@ -41,6 +41,6 @@ urlpatterns = [
 
     path('logout/', views.logout_view, name='logout'),
 
-    # 修改默认路径，登录后跳转到 restaurants 页面
+    #
     path('', lambda r: redirect('login')),
 ]
