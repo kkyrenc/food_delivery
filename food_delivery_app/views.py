@@ -34,9 +34,21 @@ def test_mysql(request):
 
 
 def restaurant_list(request):
-    # TODO: needs to get customer_id through session
+    # 从 session 获取 customer_id
+    customer_id = request.session.get('user_id')  # user_id 是登录时保存的字段
+
+    if not customer_id:
+        # 如果 customer_id 为空，重定向到登录页面
+        return redirect('login')
+
+    # 获取所有餐厅数据
     restaurants = Restaurants.objects.all()
-    return render(request, 'restaurants_list.html', {'restaurants': restaurants})
+
+    # 将 customer_id 和餐厅数据传递给模板
+    return render(request, 'restaurants_list.html', {
+        'restaurants': restaurants,
+        'customer_id': customer_id,
+    })
 
 # TODO: account_view also needs to take customer_id as a parameter
 def account_view(request):
@@ -245,8 +257,8 @@ def login(request):
             if password == customer.password:  # 明文密码对比
                 # 保存用户登录状态到 session
                 request.session['user_id'] = customer.customer_id
-                # messages.success(request, f"Welcome back, {customer.fname}!")
-                return redirect('home')  # 跳转到主页
+                # 登录成功后跳转到 /restaurants/
+                return redirect('restaurant_list')  # 跳转到餐厅列表页面
             else:
                 messages.error(request, "Username and password do not match, please try again.")
         else:
@@ -307,6 +319,10 @@ def profile(request, customer_id):
         'phone': customer.phone or '',
     }
     return render(request, 'profile.html', context)
+
+def logout_view(request):
+    request.session.flush()  # 清空会话数据
+    return redirect('login')  # 跳转到登录页面
 
 def home(request):
     return render(request, 'home.html')
