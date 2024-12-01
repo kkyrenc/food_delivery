@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
 from .models import (
     Cars,
     Customers,
@@ -20,10 +19,23 @@ from django.contrib import messages
 from .models import Customers
 from .forms import RegistrationForm, LoginForm
 
-@login_required(login_url='login')
+# Create your views here.
+def test_mysql(request):
+    # Use a customer to test
+    customers = Customers.objects.all()
+    customer = customers[0]
+    context = {
+        'first_name': customer.fname,
+        'last_name': customer.lname,
+        'address': f'{customer.street}, {customer.city}, {customer.state}, {customer.zipcode}',
+        'phone': customer.phone
+    }
+    return render(request, 'home.html', context)
+
+
 def restaurant_list(request):
     # 从 session 获取 customer_id
-    customer_id = request.session.get('user_id')  # user_id 是登录时保存的字段
+    customer_id = request.session.get('user_id')
 
     if not customer_id:
 
@@ -241,8 +253,8 @@ def login(request):
                     messages.error(request, "User does not exist.")
                     return render(request, 'login.html', {'form': form})
 
-            # 验证密码
-            if password == customer.password:  # 明文密码对比
+
+            if password == customer.password:
 
                 request.session['user_id'] = customer.customer_id
 
@@ -255,7 +267,7 @@ def login(request):
                 messages.error(request, "Please enter your username.")
             if not form.cleaned_data.get('password'):
                 messages.error(request, "Please enter your password.")
-            print(f"DEBUG: 表单验证失败: {form.errors}")
+            print(f"DEBUG: fail to verify form: {form.errors}")
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
