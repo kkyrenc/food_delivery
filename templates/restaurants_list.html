@@ -64,21 +64,18 @@
 <div class="header">
     <h1>Local restaurants</h1>
     <div class="buttons">
-{#        <a href="{% url 'account' customer_id %}">Account</a>#}
-        <a href="{% url 'account' %}">Account</a>
-{#        <a href="{% url 'order_history' customer_id %}">Order History</a>#}
-        <a href="{% url 'order_history'  %}">Order History</a>
-
+        <!-- 使用动态 customer_id 生成链接 -->
+        <a href="{% url 'profile' customer_id=customer_id %}">Profile</a>
+        <a href="{% url 'order_history' customer_id=customer_id %}">Order History</a>
+        <a href="{% url 'logout' %}">Logout</a>
     </div>
 </div>
 <div class="container">
     {% for restaurant in restaurants %}
         <div class="restaurant"> 
-            
             <h3><a href="{% url 'restaurant_menu' restaurant.res_id %}">{{ restaurant.name }}</a></h3>
             <p>Type: {{ restaurant.type }}</p>
-        <p>Location: {{ restaurant.city }}, {{ restaurant.state }}</p>
-           
+            <p>Location: {{ restaurant.city }}, {{ restaurant.state }}</p>
         </div>
     {% endfor %}
 </div>

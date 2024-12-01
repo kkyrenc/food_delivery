@@ -9,7 +9,7 @@ class RegistrationForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput,
         label="Password",
-        min_length=6,  # 密码长度必须大于等于6
+        min_length=6,
         error_messages={"min_length": "Password must be at least 6 characters long."}
     )
     confirm_password = forms.CharField(
@@ -26,7 +26,7 @@ class RegistrationForm(forms.ModelForm):
         if len(username) < 2 or len(username) > 20:
             raise ValidationError("Username must be between 2 and 20 characters.")
 
-        # 检查用户名是否已存在
+
         if Customers.objects.filter(username=username).exists():
             raise ValidationError("This username is already taken. Please choose another one.")
 
@@ -34,7 +34,7 @@ class RegistrationForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        print(f"DEBUG: 正在验证邮箱: {email}")  # 加入调试信息
+        print(f"DEBUG: verfing email: {email}")
         if not email or "@" not in email or "." not in email:
             raise ValidationError("Please enter a valid email address.")
         return email
@@ -47,12 +47,12 @@ class RegistrationForm(forms.ModelForm):
         if password != confirm_password:
             raise ValidationError("Passwords do not match!")
 
-        print(f"DEBUG: 表单错误信息: {self.errors}")  # 调试输出表单错误
+        print(f"DEBUG: form errors: {self.errors}")
         return cleaned_data
 
     def save(self, commit=True):
         customer = super().save(commit=False)
-        customer.password = self.cleaned_data["password"]  # 明文存储密码
+        customer.password = self.cleaned_data["password"]
         if commit:
             customer.save()
         return customer
@@ -62,10 +62,10 @@ class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=50,
         label="Username or Email",
-        error_messages={'required': ''}  # 自定义为空，不显示
+        error_messages={'required': ''}
     )
     password = forms.CharField(
         widget=forms.PasswordInput,
         label="Password",
-        error_messages={'required': ''}  # 自定义为空，不显示
+        error_messages={'required': ''}
     )

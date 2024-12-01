@@ -24,7 +24,7 @@ urlpatterns = [
     # path('', views.test_mysql),
     path('restaurants/', views.restaurant_list, name='restaurant_list'),
     # TODO: account path needs to take customer_id as 'profile/<customer_id>'
-    path('profile/', views.account_view, name='account'),
+    # path('profile/', views.account_view, name='account'),
 
     # TODO: order history path needs to take customer_id as 'order_history/<customer_id>'
     path('order_history/<str:customer_id>/', views.order_history_view, name='order_history'),
@@ -39,5 +39,8 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('profile/<str:customer_id>/', views.profile, name='profile'),  # 动态用户 Profile 路由
 
-    path('', lambda r: redirect("restaurants/")),
+    path('logout/', views.logout_view, name='logout'),
+
+    #
+    path('', lambda r: redirect('login')),
 ]

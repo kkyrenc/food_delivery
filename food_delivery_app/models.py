@@ -35,8 +35,8 @@ class Customers(models.Model):
     password = models.CharField(max_length=255, blank=True, null=True)  # 新增字段
 
     class Meta:
-        managed = True  # 暂时让 Django 管理此表
-        db_table = 'Customers'  # 表名保持不变
+        managed = True
+        db_table = 'Customers'
 
 
 class Drivers(models.Model):
