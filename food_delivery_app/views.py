@@ -41,8 +41,8 @@ def account_view(request):
     return render(request, 'account.html')
 
 
-# TODO: order history also needs to take customer_id as a parameter
-def order_history_view(request, customer_id):
+def order_history_view(request):
+    customer_id = request.session.get('user_id')
 
 
     # Fetch all orders for the customer, and join related restaurant, driver, and payment
