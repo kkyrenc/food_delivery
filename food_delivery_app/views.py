@@ -306,6 +306,7 @@ def profile(request, customer_id):
         'zipcode': customer.zipcode or '',
         'phone': customer.phone or '',
     }
+    return render(request, 'profile.html', context)
 
 def logout_view(request):
     request.session.flush()
