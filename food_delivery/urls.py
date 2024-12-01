@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from food_delivery_app import views
+from django.shortcuts import redirect
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -39,4 +40,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.login, name='login'),
     path('profile/<str:customer_id>/', views.profile, name='profile'),  # 动态用户 Profile 路由
+
+    path('', lambda r: redirect(r, "login/")),
 ]
