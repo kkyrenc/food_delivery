@@ -180,13 +180,27 @@ def checkout(request):
     cart = request.session.get('cart', {})
     if not cart:
         return redirect('show_cart')
-        
+    user_id = request.session.get('user_id', None)
+    
+    if not user_id:
+        return redirect('login')
+    user = get_object_or_404(Customers, customer_id=user_id)
+    
     if request.method == 'POST':
+        payment = Payments.objects.create(
+            payment_id=str(uuid.uuid4()),
+            method="Apple Pay",
+            timestamp=timezone.now()
+        )
+
         order = Orders.objects.create(
             order_id=str(uuid.uuid4()),
+            customer=user,
             restaurant_id=next(iter(cart.values()))['restaurant_id'],
-            status='pending',
-            timestamp=timezone.now()
+            status='successfull',
+            payment=payment,
+            timestamp=timezone.now(),
+
         )
         
         for item_data in cart.values():
