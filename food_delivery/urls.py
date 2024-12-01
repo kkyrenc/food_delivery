@@ -20,7 +20,7 @@ from food_delivery_app import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', views.test_mysql),
+    # path('', views.test_mysql),
     path('restaurants/', views.restaurant_list, name='restaurant_list'),
     # TODO: account path needs to take customer_id as 'profile/<customer_id>'
     path('profile/', views.account_view, name='account'),
@@ -33,4 +33,10 @@ urlpatterns = [
     path('cart/', views.show_cart, name='show_cart'),
     path('cart/clear/', views.clear_cart, name='clear_cart'),
     path('checkout/', views.checkout, name='checkout'),
+
+    path('', views.home, name='home'),
+
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
+    path('profile/<str:customer_id>/', views.profile, name='profile'),  # 动态用户 Profile 路由
 ]

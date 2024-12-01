@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<title>Test MySQL</title>
+    <title>Home</title>
 </head>
 <body>
-<h1>Test MySQL</h1>
-<h2>Customer first name: {{ first_name }}</h2>
-<h2>Customer last name: {{ last_name }}</h2>
-<h2>Address: {{ address }} </h2>
-<h2>Phone: {{ phone }}</h2>
+    <h1>Welcome to the Home Page!</h1>
+    <a href="{% url 'login' %}">Logout</a>
+    <br><br>
+    <a href="{% url 'profile' customer_id=request.session.user_id %}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+        Profile
+    </a>
 </body>
 </html>
