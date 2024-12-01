@@ -5,79 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant List</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
         }
 
         .header {
-            background-color: #f8f9fa;
-            padding: 10px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .header .buttons {
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .nav-buttons {
             display: flex;
-            gap: 10px;
+            gap: 16px;
+            align-items: center;
         }
 
-        .header .buttons a {
+        .nav-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
             text-decoration: none;
-            color: #007bff;
-            padding: 5px 10px;
-            border: 1px solid #007bff;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: all 0.2s;
+            font-size: 14px;
         }
 
-        .header .buttons a:hover {
-            background-color: #007bff;
-            color: #fff;
+        .primary-button {
+            background-color: black;
+            color: white;
+        }
+
+        .primary-button:hover {
+            background-color: #333;
+        }
+
+        .secondary-button {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .secondary-button:hover {
+            background-color: #e9ecef;
+        }
+
+        .danger-button {
+            color: #dc3545;
+            background-color: #fff;
+            border: 1px solid #dc3545;
+        }
+
+        .danger-button:hover {
+            background-color: #dc3545;
+            color: white;
         }
 
         .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .restaurant-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .restaurant-image {
+            width: 100%;
+            height: 160px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .restaurant-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .restaurant-info {
             padding: 20px;
         }
 
-        .restaurant {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
+        .restaurant-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            text-decoration: none;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .restaurant-name:hover {
+            color: #007bff;
+        }
+
+        .restaurant-details {
+            font-size: 14px;
+            color: #6c757d;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #f8f9fa;
             border-radius: 4px;
-        }
-
-        .restaurant h3 {
-            margin: 0;
-            font-size: 1.2em;
-        }
-
-        .restaurant p {
-            margin: 5px 0 0;
-            color: #555;
+            font-size: 12px;
+            color: #495057;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
-<div class="header">
-    <h1>Local restaurants</h1>
-    <div class="buttons">
-        <!-- 使用动态 customer_id 生成链接 -->
-        <a href="{% url 'profile' customer_id=customer_id %}">Profile</a>
-        <a href="{% url 'order_history' %}">Order History</a>
-        <a href="{% url 'logout' %}">Logout</a>
-    </div>
-</div>
-<div class="container">
-    {% for restaurant in restaurants %}
-        <div class="restaurant"> 
-            <h3><a href="{% url 'restaurant_menu' restaurant.res_id %}">{{ restaurant.name }}</a></h3>
-            <p>Type: {{ restaurant.type }}</p>
-            <p>Location: {{ restaurant.city }}, {{ restaurant.state }}</p>
+    <header class="header">
+        <div class="header-content">
+            <h1>Local Restaurants</h1>
+            <nav class="nav-buttons">
+                <a href="{% url 'profile' customer_id=customer_id %}" class="nav-button secondary-button">Profile</a>
+                <a href="{% url 'order_history' %}" class="nav-button secondary-button">Order History</a>
+                <a href="{% url 'logout' %}" class="nav-button danger-button">Logout</a>
+            </nav>
         </div>
-    {% endfor %}
-</div>
+    </header>
+
+    <main class="container">
+        <div class="restaurant-grid">
+            {% for restaurant in restaurants %}
+            <article class="restaurant-card">
+                <div class="restaurant-image">
+                    <img src="https://media.istockphoto.com/id/1829241109/photo/enjoying-a-brunch-together.jpg?s=1024x1024&w=is&k=20&c=QPHFTWoscwMSXOEGKoAKOjlCnMGszppFBrqQHdy4EGc=" alt="{{ restaurant.name }}">
+                </div>
+                <div class="restaurant-info">
+                    <a href="{% url 'restaurant_menu' restaurant.res_id %}" class="restaurant-name">
+                        {{ restaurant.name }}
+                    </a>
+                    <div class="restaurant-details">
+                        <span>{{ restaurant.city }}, {{ restaurant.state }}</span>
+                        <span class="tag">{{ restaurant.type }}</span>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </main>
 </body>
 </html>

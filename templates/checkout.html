@@ -1,14 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>Checkout</h2>
-    <div class="order-summary">
-        <h4>Order total: ${{ total }}</h4>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-success">Confirm</button>
-        </form>
-    </div>
+<style>
+   .checkout-container {
+       max-width: 800px;
+       margin: 0 auto;
+       padding: 32px;
+       background: white;
+       border-radius: 16px;
+       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+   }
+
+   .checkout-header {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       margin-bottom: 32px;
+       padding-bottom: 20px;
+       border-bottom: 1px solid #f0f0f0;
+   }
+
+   .checkout-title {
+       font-size: 28px;
+       font-weight: 700;
+       color: #000;
+       margin: 0;
+   }
+
+   .order-total {
+       font-size: 24px;
+       font-weight: 600;
+       color: #000;
+       margin-bottom: 24px;
+   }
+
+   .total-amount {
+       color: #10b981;
+   }
+
+   .confirm-button {
+       width: 100%;
+       padding: 16px;
+       background-color: black;
+       color: white;
+       border: none;
+       border-radius: 12px;
+       font-size: 16px;
+       font-weight: 500;
+       cursor: pointer;
+       transition: all 0.2s ease;
+   }
+
+   .confirm-button:hover {
+       background-color: #333;
+       transform: translateY(-2px);
+   }
+
+   .confirm-button:active {
+       transform: translateY(0);
+   }
+</style>
+
+<div class="checkout-container">
+   <div class="checkout-header">
+       <h2 class="checkout-title">Checkout</h2>
+   </div>
+   
+   <div class="order-total">
+       Total: <span class="total-amount">${{ total }}</span>
+   </div>
+
+   <form method="post">
+       {% csrf_token %}
+       <button type="submit" class="confirm-button">
+           Confirm Order
+       </button>
+   </form>
 </div>
 {% endblock %}

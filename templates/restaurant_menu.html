@@ -1,50 +1,189 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>{{ restaurant.name }} - Menu</h2>
-    <div class="row mt-4">
-        {% for item in menu_items %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.item_name }}</h5>
-                    <p class="card-text">Price: ${{ item.price }}</p>
-                    <a href="{% url 'add_to_cart' restaurant.res_id item.item_name %}" 
-                       class="btn btn-primary add-to-cart">Add to cart</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
+<style>
+    .menu-header {
+        background-color: white;
+        padding: 24px 0;
+        margin-bottom: 32px;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .restaurant-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .restaurant-name {
+        font-size: 28px;
+        font-weight: 600;
+        color: #000;
+        margin: 0;
+    }
+
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 24px;
+    }
+
+    .menu-item {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .menu-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .item-image {
+        width: 100%;
+        height: 180px;
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .item-details {
+        padding: 20px;
+    }
+
+    .item-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #000;
+        margin-bottom: 8px;
+    }
+
+    .item-price {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 16px;
+    }
+
+    .add-to-cart {
+        width: 100%;
+        padding: 12px;
+        background-color: black;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .add-to-cart:hover {
+        background-color: #333;
+    }
+
+    .toast-notification {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background-color: #22c55e;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transform: translateY(150%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+
+    .toast-notification.show {
+        transform: translateY(0);
+    }
+
+    .toast-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .menu-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .menu-header {
+            padding: 16px;
+        }
+        
+        .restaurant-name {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="menu-header">
+    <div class="restaurant-info">
+        <h1 class="restaurant-name">{{ restaurant.name }}</h1>
     </div>
 </div>
 
-<!-- 居中的 Toast notification -->
-<div class="toast-container position-fixed top-50 start-50 translate-middle">
-    <div id="cartToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                Item added to cart successfully!
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+<div class="menu-grid">
+    {% for item in menu_items %}
+    <div class="menu-item">
+        <div class="item-image">
+            <img src="https://plus.unsplash.com/premium_photo-1684349034700-d3abbaa83ee1?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="{{ item.item_name }}">
+        </div>
+        <div class="item-details">
+            <h3 class="item-name">{{ item.item_name }}</h3>
+            <p class="item-price">${{ item.price }}</p>
+            <button class="add-to-cart" data-url="{% url 'add_to_cart' restaurant.res_id item.item_name %}">
+                Add to Cart
+            </button>
         </div>
     </div>
+    {% endfor %}
+</div>
+
+<div class="toast-notification" id="successToast">
+    <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 6L9 17l-5-5"></path>
+    </svg>
+    <span>Added to cart!</span>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const addButtons = document.querySelectorAll('.add-to-cart');
+    const toast = document.getElementById('successToast');
     
     addButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', async function(e) {
             e.preventDefault();
+            const url = this.dataset.url;
             
-            const toast = new bootstrap.Toast(document.getElementById('cartToast'));
-            toast.show();
+            button.style.opacity = '0.7';
+            button.textContent = 'Adding...';
+            
+            toast.classList.add('show');
             
             setTimeout(() => {
-                window.location.href = this.href;
+                window.location.href = url;
             }, 800);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         });
     });
 });

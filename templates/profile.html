@@ -3,172 +3,244 @@
 <head>
     <title>Profile</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding: 40px 20px;
         }
 
         .profile-container {
-            width: 350px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 32px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .profile-header {
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            text-align: left;
         }
 
         h1 {
-            margin-bottom: 20px;
-            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 24px;
+            margin-bottom: 32px;
         }
 
         .info {
-            margin-bottom: 10px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .info label {
-            font-weight: bold;
-            flex: 1;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
         }
 
-        .info input {
-            width: 60%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            display: inline-block;
+        .info input,
+        .info span {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #000;
+            background-color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        .info input:disabled {
+            background-color: #f8f9fa;
+            color: #666;
+        }
+
+        .info input:focus {
+            outline: none;
+            border-color: #000;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+
+        .info span {
+            border: none;
+            background-color: #f8f9fa;
+            color: #000;
         }
 
         .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 32px;
         }
 
-        .action-buttons button, .action-buttons a {
-            padding: 5px 15px;
-            background-color: #007bff;
+        .action-button {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .edit-btn {
+            background-color: #f8f9fa;
+            color: #000;
+            border: none;
+        }
+
+        .edit-btn:hover {
+            background-color: #e9ecef;
+        }
+
+        .save {
+            background-color: black;
             color: white;
             border: none;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9em;
         }
 
-        .action-buttons button:hover {
-            background-color: #0056b3;
+        .save:hover:not(:disabled) {
+            background-color: #333;
         }
 
-        .action-buttons a:hover {
-            background-color: #0056b3;
-        }
-
-        .action-buttons .save {
-            background-color: #28a745;
-        }
-
-        .action-buttons .save:hover {
-            background-color: #218838;
-        }
-        
-        .action-buttons .save:disabled {
-            background-color: #ccc;
+        .save:disabled {
+            background-color: #e5e7eb;
+            color: #9ca3af;
             cursor: not-allowed;
         }
 
+        .home {
+            background-color: #f8f9fa;
+            color: #666;
+        }
+
+        .home:hover {
+            background-color: #e9ecef;
+        }
+
         .message {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
             text-align: center;
-            color: green;
-            margin-bottom: 10px;
+            font-weight: 500;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
         .message.hidden {
-            display: none;
+            opacity: 0;
+        }
+
+        @media (min-width: 640px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <div class="profile-container">
-        <h1>Profile</h1>
-        <!-- 消息显示 -->
+        <div class="profile-header">
+            <h1>Your Profile</h1>
+        </div>
+
         {% if messages %}
             <div id="message" class="message">
                 {% for message in messages %}
-                    <p>{{ message }}</p>
+                    {{ message }}
                 {% endfor %}
             </div>
         {% endif %}
+
         <form method="post">
             {% csrf_token %}
-            <div class="info">
-                <label>Username:</label>
-                <span>{{ username }}</span>
+            <div class="info-grid">
+                <div class="info">
+                    <label>Username</label>
+                    <span>{{ username }}</span>
+                </div>
+                <div class="info">
+                    <label>Email</label>
+                    <span>{{ email }}</span>
+                </div>
+                <div class="info">
+                    <label>First Name</label>
+                    <input type="text" name="fname" value="{{ fname }}" disabled>
+                </div>
+                <div class="info">
+                    <label>Last Name</label>
+                    <input type="text" name="lname" value="{{ lname }}" disabled>
+                </div>
+                <div class="info">
+                    <label>Street</label>
+                    <input type="text" name="street" value="{{ street }}" disabled>
+                </div>
+                <div class="info">
+                    <label>City</label>
+                    <input type="text" name="city" value="{{ city }}" disabled>
+                </div>
+                <div class="info">
+                    <label>State</label>
+                    <input type="text" name="state" value="{{ state }}" disabled>
+                </div>
+                <div class="info">
+                    <label>Zipcode</label>
+                    <input type="text" name="zipcode" value="{{ zipcode }}" disabled>
+                </div>
+                <div class="info">
+                    <label>Phone</label>
+                    <input type="text" name="phone" value="{{ phone }}" disabled>
+                </div>
             </div>
-            <div class="info">
-                <label>Email:</label>
-                <span>{{ email }}</span>
-            </div>
-            <div class="info">
-                <label>First Name:</label>
-                <input type="text" name="fname" value="{{ fname }}" disabled>
-            </div>
-            <div class="info">
-                <label>Last Name:</label>
-                <input type="text" name="lname" value="{{ lname }}" disabled>
-            </div>
-            <div class="info">
-                <label>Street:</label>
-                <input type="text" name="street" value="{{ street }}" disabled>
-            </div>
-            <div class="info">
-                <label>City:</label>
-                <input type="text" name="city" value="{{ city }}" disabled>
-            </div>
-            <div class="info">
-                <label>State:</label>
-                <input type="text" name="state" value="{{ state }}" disabled>
-            </div>
-            <div class="info">
-                <label>Zipcode:</label>
-                <input type="text" name="zipcode" value="{{ zipcode }}" disabled>
-            </div>
-            <div class="info">
-                <label>Phone:</label>
-                <input type="text" name="phone" value="{{ phone }}" disabled>
-            </div>
+
             <div class="action-buttons">
-                <button type="button" class="edit-btn" onclick="enableAllEdits()">Edit</button>
-                <button type="submit" class="save" disabled>Save</button>
-                <a href="{% url 'restaurant_list' %}" class="home">Home</a>
+                <button type="button" class="action-button edit-btn" onclick="enableAllEdits()">Edit</button>
+                <button type="submit" class="action-button save" disabled>Save</button>
+                <a href="{% url 'restaurant_list' %}" class="action-button home">Home</a>
             </div>
         </form>
     </div>
 
     <script>
+        // 保持原有的JavaScript代码不变
         function enableAllEdits() {
-            // 启用所有输入框
             const inputs = document.querySelectorAll('.info input');
             inputs.forEach(input => {
                 input.disabled = false;
             });
         
-            // 启用保存按钮
             const saveButton = document.querySelector('.save');
             if (saveButton) {
-                saveButton.disabled = false; // 只移除 disabled 属性
+                saveButton.disabled = false;
             }
         }
 
-        // 消息显示 3 秒后隐藏
         const messageDiv = document.getElementById('message');
         if (messageDiv) {
             setTimeout(() => {

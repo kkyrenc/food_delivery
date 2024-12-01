@@ -1,9 +1,66 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>Checkout successfully!</h2>
-    <p>Thanks for your order！</p>
-    <a href="{% url 'restaurant_list' %}" class="btn btn-primary">Return to home</a>
+<style>
+   .success-container {
+       max-width: 600px;
+       margin: 60px auto;
+       padding: 40px;
+       background: white;
+       border-radius: 16px;
+       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+       text-align: center;
+   }
+
+   .success-icon {
+       width: 80px;
+       height: 80px;
+       margin-bottom: 24px;
+       color: #10b981;
+   }
+
+   .success-title {
+       font-size: 28px;
+       font-weight: 700;
+       color: #000;
+       margin-bottom: 16px;
+   }
+
+   .success-message {
+       font-size: 18px;
+       color: #666;
+       margin-bottom: 32px;
+   }
+
+   .home-button {
+       display: inline-block;
+       padding: 16px 32px;
+       background-color: black;
+       color: white;
+       border: none;
+       border-radius: 12px;
+       font-weight: 500;
+       text-decoration: none;
+       transition: all 0.2s ease;
+   }
+
+   .home-button:hover {
+       background-color: #333;
+       transform: translateY(-2px);
+   }
+</style>
+
+<div class="success-container">
+   <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+       <polyline points="22 4 12 14.01 9 11.01"></polyline>
+   </svg>
+   
+   <h2 class="success-title">Order Confirmed!</h2>
+   <p class="success-message">Thank you for your order! Your food is being prepared.</p>
+   
+   <a href="{% url 'restaurant_list' %}" class="home-button">
+       Return to Home
+   </a>
 </div>
 {% endblock %}
