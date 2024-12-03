@@ -8,9 +8,15 @@ Team members:
 - Jia-Wen Wan
 - Ran Yan
 
-# Lab 8 - Django Project
+# Food Delivery - Django Project
 
-This project is for Lab 8 and is set up with only SQL-related and Django-related packages installed. The environment is run using Django's built-in development server (`python manage.py runserver`).
+This project is the final submission for our course, implementing a functional food delivery web application. All features and code are executed using Django's built-in development server (`python manage.py runserver`).
+
+---
+
+## Project Description
+
+The **Food Delivery** project is a Django-based web application enabling users to browse food items, place orders, and manage deliveries. The application is designed with simplicity and functionality in mind, with SQL databases for data storage.
 
 ---
 
@@ -18,12 +24,11 @@ This project is for Lab 8 and is set up with only SQL-related and Django-related
 
 ### Requirements
 
-- Python Version: 3.x
-- Required Packages:
+- **Python Version**: 3.x
+- **Installed Packages**:
   - `Django`
-  - SQL-related libraries as needed (e.g., `sqlite3` or a specific database driver like `psycopg2` for PostgreSQL)
+  - SQL-related libraries (e.g., `sqlite3` or `psycopg2` for PostgreSQL)
 
----
 
 ## How to Run
 
