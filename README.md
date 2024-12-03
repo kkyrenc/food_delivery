@@ -12,13 +12,11 @@ Team members:
 
 This project is the final submission for our course, implementing a functional food delivery web application. All features and code are executed using Django's built-in development server (`python manage.py runserver`).
 
----
 
 ## Project Description
 
 The **Food Delivery** project is a Django-based web application enabling users to browse food items, place orders. The application is designed with simplicity and functionality in mind, with SQL databases for data storage.
 
----
 
 ## Environment Setup
 
